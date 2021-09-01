@@ -40,7 +40,7 @@ namespace sintaxis3
                             {  F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F },//23
                             { 24, E,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,25,24,24,24,24, E },//24
                             {  F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F },//25
-                            {  F, F, F, F, F, F, F, F,16, F, F, F, F, F, 36, F, F, F, F, F, F, F, F, F, F, F },//26
+                            {  F, F, F, F, F, F, F, F,16, F, F, F, F, F,36, F, F, F, F, F, F, F, F, F, F, F },//26
                             {  F, F, F, F, F, F, F, F,16, F, F, F, F, F,16,37, F, F, F, F, F, F, F, F, F, F },//27
                             {  F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F },//28
                             {  F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F },//29
@@ -211,13 +211,15 @@ namespace sintaxis3
                     case "do":
                         setClasificacion(clasificaciones.ciclo);
                         break;
-                }
+                }                
+            }
 
+            if (getContenido() != "")
+            {
                 bitacora.WriteLine("Token = " + getContenido());
                 bitacora.WriteLine("Clasificacion = " + getClasificacion());
-            }
+            }            
         }
-
         
 
         private void clasificar(int estado)
@@ -282,10 +284,10 @@ namespace sintaxis3
                     setClasificacion(clasificaciones.operadorTernario);
                     break;
                 case 36:
-                    setClasificacion(clasificaciones.flujoSalida);
+                    setClasificacion(clasificaciones.flujoEntrada);
                     break;
                 case 37:
-                    setClasificacion(clasificaciones.flujoEntrada);
+                    setClasificacion(clasificaciones.flujoSalida);
                     break;
             }
         }
