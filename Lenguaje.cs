@@ -2,12 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
-// ✔ Requerimiento 1: Poder asignar una expresión matemática al momento de declarar una variable o una
-//                     lista de variables.
-// ✔ Requerimiento 2: En la condicion debe ir Expresion operadorRelacional Expresion
-// ✔ Requerimiento 3: Implementar el For 
-// ✔ Requerimiento 4: Implementar el While
-// ✔ Requerimiento 5: Implementar el DoWhile
+// Requerimiento 1: Implementar las secuencias de escape: \n, \t cuando se imprime una cadena y 
+//                  eliminar las dobles comillas.
 
 namespace sintaxis3
 {
@@ -38,7 +34,7 @@ namespace sintaxis3
                 match("#");
                 match("include");
                 match("<");
-                match(Token.clasificaciones.identificador);
+                match(clasificaciones.identificador);
 
                 if (getContenido() == ".")
                 {
@@ -75,8 +71,8 @@ namespace sintaxis3
 
         // Lista_IDs -> identificador (= Expresion)? (,Lista_IDs)? 
         private void Lista_IDs()
-        {
-            match(clasificaciones.identificador);
+        {          
+            match(clasificaciones.identificador); // Validar duplicidad
 
             if (getClasificacion() == clasificaciones.asignacion)
             {
@@ -122,7 +118,7 @@ namespace sintaxis3
             {
                 match("cin");
                 match(clasificaciones.flujoEntrada);
-                match(clasificaciones.identificador);
+                match(clasificaciones.identificador); // Validar existencia
                 match(clasificaciones.finSentencia);
             }
             else if (getContenido() == "cout")
@@ -141,7 +137,7 @@ namespace sintaxis3
             }            
             else
             {
-                match(clasificaciones.identificador);
+                match(clasificaciones.identificador); // Validar existencia
                 match(clasificaciones.asignacion);
 
                 if (getClasificacion() == clasificaciones.cadena)
@@ -173,7 +169,7 @@ namespace sintaxis3
         {
             match("const");
             match(clasificaciones.tipoDato);
-            match(clasificaciones.identificador);
+            match(clasificaciones.identificador); // Validar duplicidad
             match(clasificaciones.asignacion);
 
             if (getClasificacion() == clasificaciones.numero)
@@ -195,15 +191,18 @@ namespace sintaxis3
 
             if (getClasificacion() == clasificaciones.numero)
             {
-                match(clasificaciones.numero);
+                Console.Write(getContenido());
+                match(clasificaciones.numero); 
             }
             else if (getClasificacion() == clasificaciones.cadena)
             {
+                Console.Write(getContenido());
                 match(clasificaciones.cadena);
             }
             else
             {
-                match(clasificaciones.identificador);
+                Console.Write(getContenido());
+                match(clasificaciones.identificador); // Validar existencia
             }
 
             if (getClasificacion() == clasificaciones.flujoSalida)
@@ -248,6 +247,7 @@ namespace sintaxis3
         {
             if (getClasificacion() == clasificaciones.operadorTermino)
             {
+                Console.Write(getContenido() + " ");
                 match(clasificaciones.operadorTermino);
                 Termino();
             }
@@ -263,6 +263,7 @@ namespace sintaxis3
         {
             if (getClasificacion() == clasificaciones.operadorFactor)
             {
+                Console.Write(getContenido() + " ");
                 match(clasificaciones.operadorFactor);
                 Factor();
             }
@@ -272,10 +273,12 @@ namespace sintaxis3
         {
             if (getClasificacion() == clasificaciones.identificador)
             {
-                match(clasificaciones.identificador);
+                Console.Write(getContenido() + " ");
+                match(clasificaciones.identificador); // Validar existencia
             }
             else if (getClasificacion() == clasificaciones.numero)
             {
+                Console.Write(getContenido() + " ");
                 match(clasificaciones.numero);
             }
             else
@@ -293,7 +296,7 @@ namespace sintaxis3
 
             match("(");
 
-            match(clasificaciones.identificador);
+            match(clasificaciones.identificador); // Validar existencia
             match(clasificaciones.asignacion);
             Expresion();
             match(clasificaciones.finSentencia);
@@ -301,7 +304,7 @@ namespace sintaxis3
             Condicion();
             match(clasificaciones.finSentencia);
 
-            match(clasificaciones.identificador);
+            match(clasificaciones.identificador); // Validar existencia
             match(clasificaciones.incrementoTermino);
 
             match(")");
@@ -335,5 +338,9 @@ namespace sintaxis3
             match(")");
             match(clasificaciones.finSentencia);
         }
+
+        // x26 = (3 + 5) * 8 - (10 - 4) / 2
+        // x26 = 3 + 5 * 8 - 10 - 4 / 2
+        // x26 = 3 5 + 8 * 10 4 - 2 / -
     }
 }
