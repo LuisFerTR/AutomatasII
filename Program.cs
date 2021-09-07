@@ -22,6 +22,8 @@ namespace sintaxis3
             {
                 Console.WriteLine(e.Message);
             }
+
+            Console.ReadKey();
         }
     }
 }
