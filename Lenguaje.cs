@@ -5,20 +5,28 @@ using System.Text;
 // Requerimiento 1: Implementar las secuencias de escape: \n, \t cuando se imprime una cadena y 
 //                  eliminar las dobles comillas.
 // Requerimiento 2: Levantar excepciones en la clase Stack.
+// Requerimiento 3: Agregar el tipo de dato en el Inserta de ListaVariables.
+// Requerimiento 4: Validar existencia o duplicidad de variables. Mensaje de error: 
+//                  "Error de sintaxis: La variable (x26) no ha sido declarada."
+//                  "Error de sintaxis: La variables (x26) está duplicada." 
+
 namespace sintaxis3
 {
     class Lenguaje: Sintaxis
     {
         Stack s;
+        ListaVariables l;
         public Lenguaje()
         {            
             s = new Stack(5);
+            l = new ListaVariables();
             Console.WriteLine("Iniciando analisis gramatical.");
         }
 
         public Lenguaje(string nombre): base(nombre)
         {
             s = new Stack(5);
+            l = new ListaVariables();
             Console.WriteLine("Iniciando analisis gramatical.");
         }
 
@@ -27,6 +35,7 @@ namespace sintaxis3
         {
             Libreria();
             Main();
+            l.imprime(bitacora);
         }
 
         // Libreria -> (#include <identificador(.h)?> Libreria) ?
@@ -75,7 +84,18 @@ namespace sintaxis3
         // Lista_IDs -> identificador (= Expresion)? (,Lista_IDs)? 
         private void Lista_IDs()
         {          
+            string nombre = getContenido();
             match(clasificaciones.identificador); // Validar duplicidad
+
+            if (!l.Existe(nombre))
+            {
+                l.Inserta(nombre, Variable.tipo.CHAR);
+            }
+            else
+            {
+                // Levantar excepción
+                throw new Error(bitacora, "Error de sintaxis: Variable duplicada (" + nombre + ") " + "(" + linea + ", " + caracter + ")");
+            }                
 
             if (getClasificacion() == clasificaciones.asignacion)
             {
