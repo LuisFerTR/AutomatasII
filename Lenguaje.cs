@@ -9,6 +9,7 @@ using System.Text;
 // Requerimiento 4: Validar existencia o duplicidad de variables. Mensaje de error: 
 //                  "Error de sintaxis: La variable (x26) no ha sido declarada."
 //                  "Error de sintaxis: La variables (x26) está duplicada." 
+// Requerimiento 5: Modificar el valor de la variable o constante al momento de su declaración.
 
 namespace sintaxis3
 {
@@ -160,19 +161,24 @@ namespace sintaxis3
             }            
             else
             {
+                string nombre = getContenido();
                 match(clasificaciones.identificador); // Validar existencia
                 match(clasificaciones.asignacion);
 
+                string valor;
+
                 if (getClasificacion() == clasificaciones.cadena)
-                {
-                    match(clasificaciones.cadena);
+                {           
+                    valor = getContenido();         
+                    match(clasificaciones.cadena);                    
                 }
                 else
-                {
+                {                    
                     Expresion();
-                    Console.WriteLine(s.pop(bitacora));
+                    valor = s.pop(bitacora).ToString();                  
                 }                
 
+                l.setValor(nombre, valor);
                 match(clasificaciones.finSentencia);
             }
         }

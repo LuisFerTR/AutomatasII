@@ -6,12 +6,19 @@ namespace sintaxis3
         string nombre;
         string valor;
         tipo tipoDato;
+        bool esConstante;
 
-        public Variable(string nombre, tipo tipoDato)
+        public Variable(string nombre, tipo tipoDato, bool esConstante)
         {
             this.nombre = nombre;
             this.tipoDato = tipoDato;
             valor = "";
+            this.esConstante = esConstante;
+        }
+
+        public bool getEsConstante()
+        {
+            return esConstante;
         }
 
         public string getNombre()
