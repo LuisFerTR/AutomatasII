@@ -140,6 +140,7 @@ namespace sintaxis3
             }
             else if (getContenido() == "cin")
             {
+                // Requerimiento 5
                 match("cin");
                 match(clasificaciones.flujoEntrada);
                 match(clasificaciones.identificador); // Validar existencia
@@ -231,7 +232,17 @@ namespace sintaxis3
             }
             else
             {
-                match(clasificaciones.identificador); // Validar existencia
+                string nombre = getContenido();
+                if (l.Existe(nombre))
+                {
+                    Console.Write(l.getValor(nombre));
+                    match(clasificaciones.identificador); // Validar existencia 
+                }
+                else
+                {
+
+                }
+                               
             }
 
             if (getClasificacion() == clasificaciones.flujoSalida)
@@ -331,6 +342,9 @@ namespace sintaxis3
             if (getClasificacion() == clasificaciones.identificador)
             {
                 Console.Write(getContenido() + " ");
+
+                s.push(float.Parse(l.getValor(getContenido())), bitacora);
+                s.display(bitacora);
                 match(clasificaciones.identificador); // Validar existencia
             }
             else if (getClasificacion() == clasificaciones.numero)
